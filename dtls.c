@@ -3861,6 +3861,12 @@ dtls_new_context(void *app_data) {
   return NULL;
 }
 
+void dtls_reset_peer(dtls_context_t *ctx, dtls_peer_t *peer)
+{
+    dtls_stop_retransmission(ctx, peer);
+    dtls_destroy_peer(ctx, peer, 1);
+}
+
 void
 dtls_free_context(dtls_context_t *ctx) {
   dtls_peer_t *p;
