@@ -415,8 +415,13 @@ int dtls_handle_message(dtls_context_t *ctx, session_t *session,
 dtls_peer_t *dtls_get_peer(const dtls_context_t *context,
 			   const session_t *session);
 
-
-void dtls_reset_peer(dtls_context_t *ctx, dtls_peer_t *peer);
+/**
+ * Resets all connections with @p peer.
+ *
+ * @param context  The active DTLS context.
+ * @param peer     The peer to reset.
+ */
+void dtls_reset_peer(dtls_context_t *context, dtls_peer_t *peer);
 
 #endif /* _DTLS_DTLS_H_ */
 
