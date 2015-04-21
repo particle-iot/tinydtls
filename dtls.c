@@ -3600,7 +3600,7 @@ handle_alert(dtls_context_t *ctx, dtls_peer_t *peer,
   
   if (free_peer) {
     dtls_stop_retransmission(ctx, peer);
-    dtls_destroy_peer(ctx, peer, 0);
+    dtls_destroy_peer(ctx, peer, 1);
   }
 
   return free_peer;
@@ -3677,7 +3677,7 @@ dtls_handle_message(dtls_context_t *ctx,
 	  if (peer->state < DTLS_STATE_CONNECTED) {
 	    dtls_alert_send_from_err(ctx, peer, &peer->session, err);
 	    peer->state = DTLS_STATE_CLOSED;
-	    /* dtls_stop_retransmission(ctx, peer); */
+	    dtls_stop_retransmission(ctx, peer);
 	    dtls_destroy_peer(ctx, peer, 1);
 	  }
           return err;
