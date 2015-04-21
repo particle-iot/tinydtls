@@ -42,10 +42,7 @@ package = @PACKAGE_TARNAME@-@PACKAGE_VERSION@
 install := cp
 
 # files and flags
-SOURCES:= dtls.c crypto.c ccm.c hmac.c netq.c peer.c dtls_time.c session.c
-ifneq ("@NDEBUG@", "1")
-SOURCES += debug.c
-endif
+SOURCES:= dtls.c crypto.c ccm.c hmac.c netq.c peer.c dtls_time.c session.c debug.c
 SUB_OBJECTS:=aes/rijndael.o @OPT_OBJS@
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES)) $(SUB_OBJECTS)
 HEADERS:=dtls.h hmac.h debug.h dtls_config.h uthash.h numeric.h crypto.h global.h ccm.h \

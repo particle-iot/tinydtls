@@ -44,6 +44,10 @@
 #include "global.h"
 #include "debug.h"
 
+#ifndef min
+#define min(a,b) ((a) < (b) ? (a) : (b))
+#endif
+
 static int maxlog = DTLS_LOG_WARN;	/* default maximum log level */
 
 const char *dtls_package_name() {
@@ -61,7 +65,11 @@ dtls_get_log_level() {
 
 void
 dtls_set_log_level(log_t level) {
+#ifdef NDEBUG
+  maxlog = min(level, DTLS_LOG_INFO);
+#else /* !NDEBUG */
   maxlog = level;
+#endif /* NDEBUG */
 }
 
 /* this array has the same order as the type log_t */
@@ -94,6 +102,8 @@ print_timestamp(char *s, size_t len, clock_time_t t) {
 
 #endif /* HAVE_TIME_H */
 
+#ifndef NDEBUG
+
 /** 
  * A length-safe strlen() fake. 
  * 
@@ -109,10 +119,6 @@ dtls_strnlen(const char *s, size_t maxlen) {
     ++n;
   return n;
 }
-
-#ifndef min
-#define min(a,b) ((a) < (b) ? (a) : (b))
-#endif
 
 static size_t
 dsrv_print_addr(const session_t *addr, char *buf, size_t len) {
@@ -202,6 +208,8 @@ dsrv_print_addr(const session_t *addr, char *buf, size_t len) {
   return 0;
 #endif
 }
+
+#endif /* NDEBUG */
 
 #ifndef WITH_CONTIKI
 void 
