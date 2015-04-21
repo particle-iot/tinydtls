@@ -67,7 +67,9 @@
 #define HASH_ADD_PEER(head,sess,add)		\
   HASH_ADD(hh,head,sess,sizeof(session_t),add)
 #define HASH_DEL_PEER(head,delptr)		\
-  HASH_DELETE(hh,head,delptr)
+  if ((head) != NULL && (delptr) != NULL) {	\
+    HASH_DELETE(hh,head,delptr);		\
+  }
 #endif /* WITH_CONTIKI */
 
 #define DTLS_RH_LENGTH sizeof(dtls_record_header_t)
