@@ -41,4 +41,7 @@
 /** Defined to 1 if tinydtls is built for Contiki OS */
 #undef WITH_CONTIKI
 
+/** Defined to 1 if tinydtls is built with iotivity support. */
+#undef WITH_IOTIVITY
+
 #endif /* _DTLS_TINYDTLS_H_ */
