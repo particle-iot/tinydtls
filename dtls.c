@@ -4036,8 +4036,9 @@ dtls_check_retransmit(dtls_context_t *context, clock_time_t *next) {
     node = netq_head(context->sendqueue);
   }
 
-  if (next && node)
-    *next = node->t;
+  if (next) {
+    *next = node ? node->t : 0;
+  }
 }
 
 #ifdef WITH_CONTIKI
