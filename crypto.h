@@ -89,7 +89,7 @@ typedef struct {
 #define DTLS_PSK_MAX_CLIENT_IDENTITY_LEN   32
 
 /* This is the maximal supported length of the pre-shared key. */
-#define DTLS_PSK_MAX_KEY_LEN 32
+#define DTLS_PSK_MAX_KEY_LEN DTLS_KEY_LENGTH
 
 typedef struct {
   uint16_t id_length;
