@@ -58,7 +58,7 @@ block0(size_t M,       /* number of auth bytes */
   result[0] = CCM_FLAGS(la, M, L);
 
   /* copy the nonce */
-  memcpy(result + 1, nonce, DTLS_CCM_BLOCKSIZE - L);
+  memcpy(result + 1, nonce, DTLS_CCM_BLOCKSIZE - L - 1);
   
   for (i=0; i < L; i++) {
     result[15-i] = lm & 0xff;
@@ -195,7 +195,7 @@ dtls_ccm_encrypt_message(rijndael_ctx *ctx, size_t M, size_t L,
   A[0] = L-1;
 
   /* copy the nonce */
-  memcpy(A + 1, nonce, DTLS_CCM_BLOCKSIZE - L);
+  memcpy(A + 1, nonce, DTLS_CCM_BLOCKSIZE - L - 1);
   
   while (lm >= DTLS_CCM_BLOCKSIZE) {
     /* calculate MAC */
@@ -265,7 +265,7 @@ dtls_ccm_decrypt_message(rijndael_ctx *ctx, size_t M, size_t L,
   A[0] = L-1;
 
   /* copy the nonce */
-  memcpy(A + 1, nonce, DTLS_CCM_BLOCKSIZE - L);
+  memcpy(A + 1, nonce, DTLS_CCM_BLOCKSIZE - L - 1);
   
   while (lm >= DTLS_CCM_BLOCKSIZE) {
     /* decrypt */
