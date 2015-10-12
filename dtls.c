@@ -74,7 +74,7 @@
 #define DTLS_HS_LENGTH sizeof(dtls_handshake_header_t)
 #define DTLS_CH_LENGTH sizeof(dtls_client_hello_t) /* no variable length fields! */
 #define DTLS_COOKIE_LENGTH_MAX 32
-#define DTLS_CH_LENGTH_MAX sizeof(dtls_client_hello_t) + DTLS_COOKIE_LENGTH_MAX + 12 + 26
+#define DTLS_CH_LENGTH_MAX sizeof(dtls_client_hello_t) + DTLS_COOKIE_LENGTH_MAX + 12 + 34
 #define DTLS_HV_LENGTH sizeof(dtls_hello_verify_t)
 #define DTLS_SH_LENGTH (2 + DTLS_RANDOM_LENGTH + 1 + 2 + 1)
 #define DTLS_CE_LENGTH (3 + 3 + 27 + DTLS_EC_KEY_SIZE + DTLS_EC_KEY_SIZE)
@@ -2320,7 +2320,7 @@ dtls_send_client_hello(dtls_context_t *ctx, dtls_peer_t *peer,
   ecdsa = is_ecdsa_supported(ctx, 1);
 
   cipher_size = 2 + ((ecdsa) ? 2 : 0) + ((psk) ? 2 : 0);
-  extension_size = (ecdsa) ? 2 + 6 + 6 + 8 + 6: 0;
+  extension_size = (ecdsa) ? 2 + 6 + 6 + 8 + 6 + 8: 0;
 
   if (cipher_size == 0) {
     dtls_crit("no cipher callbacks implemented\n");
@@ -2443,6 +2443,26 @@ dtls_send_client_hello(dtls_context_t *ctx, dtls_peer_t *peer,
     p += sizeof(uint8);
 
     dtls_int_to_uint8(p, TLS_EXT_EC_POINT_FORMATS_UNCOMPRESSED);
+    p += sizeof(uint8);
+
+    /* signature_algorithms */
+    dtls_int_to_uint16(p, TLS_EXT_SIG_HASH_ALGO);
+    p += sizeof(uint16);
+
+    /* length of this extension type */
+    dtls_int_to_uint16(p, 4);
+    p += sizeof(uint16);
+
+    /* number of supported formats */
+    dtls_int_to_uint16(p, 2);
+    p += sizeof(uint16);
+
+    /* sha256 */
+    dtls_int_to_uint8(p, TLS_EXT_SIG_HASH_ALGO_SHA256);
+    p += sizeof(uint8);
+
+    /* ecdsa */
+    dtls_int_to_uint8(p, TLS_EXT_SIG_HASH_ALGO_ECDSA);
     p += sizeof(uint8);
   }
 
