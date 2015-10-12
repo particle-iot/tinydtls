@@ -3416,7 +3416,7 @@ handle_handshake(dtls_context_t *ctx, dtls_peer_t *peer, session_t *session,
     while (node) {
       dtls_handshake_header_t *node_header = DTLS_HANDSHAKE_HEADER(node->data);
       if (dtls_uint16_to_int(node_header->message_seq) == dtls_uint16_to_int(hs_header->message_seq)) {
-        dtls_warn("a packet with this sequence number is already stored\n");
+        dtls_warn("a packet with this sequence number is already stored %i\n", dtls_uint16_to_int(node_header->message_seq));
         return 0;
       }
       node = netq_next(node);
